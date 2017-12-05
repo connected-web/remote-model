@@ -1,0 +1,11 @@
+{
+  "name": "remote-model",
+  "version": "1.0.0",
+  "description": "A fetcher for an externally hosted config file, that is released on a different cadence to your service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "John Beech",
+  "license": "ISC"
+}
