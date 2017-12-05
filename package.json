@@ -2,10 +2,16 @@
   "name": "remote-model",
   "version": "1.0.0",
   "description": "A fetcher for an externally hosted config file, that is released on a different cadence to your service",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node node_modules/mocha/bin/mocha"
   },
   "author": "John Beech",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^4.0.1"
+  },
+  "dependencies": {
+    "node-fetch": "^1.7.3"
+  }
 }
