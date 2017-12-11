@@ -5,7 +5,8 @@ const defaultUpdateIntervalMs = 5 * 60 * 1000 // 5 minutes in milliseconds
 
 const agent = httpsAgent()
 
-function remoteModel ({modelUrl, updateIntervalMs}) {
+function remoteModel ({url, updateIntervalMs}) {
+  const modelUrl = url
   updateIntervalMs = updateIntervalMs || defaultUpdateIntervalMs
 
   const fetchOptions = { agent }

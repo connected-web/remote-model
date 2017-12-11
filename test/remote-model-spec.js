@@ -9,7 +9,7 @@ const expectedRemoteFile = {
 
 describe('Remote Model', () => {
   const defaultOptions = {
-    modelUrl: 'https://raw.githubusercontent.com/connected-web/remote-test/master/info.json',
+    url: 'https://raw.githubusercontent.com/connected-web/remote-test/master/info.json',
     updateIntervalMs: 60000
   }
 
