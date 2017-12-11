@@ -14,5 +14,9 @@
   },
   "dependencies": {
     "node-fetch": "^1.7.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/connected-web/remote-model.git"
   }
 }

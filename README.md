@@ -1,4 +1,4 @@
-# remote-model
+# Remote Model
 
 A fetcher for an externally hosted config file, that is released on a different cadence to your service
 
@@ -37,6 +37,10 @@ myModel.notify((data) => {
 ```
 
 ## Changelog
+
+### 1.0.1
+
+- Add repository information to package.json
 
 ### 1.0.0
 
