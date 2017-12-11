@@ -36,6 +36,16 @@ myModel.notify((data) => {
 
 ```
 
+## HTTPS Agent
+
+In order to access content securely over HTTPS, the `https` lib is used to create a https agent for network requests. It is recommended that you set up the following environment variables prior to running your script. By default, the script expects the `CLIENT_CERT`, `CLIENT_KEY`, and `CLIENT_CA` to exist, for example:
+
+```sh
+export CLIENT_CERT="/user/certs/path.crt"
+export CLIENT_KEY="/user/certs/path.key"
+export CLIENT_CA="/user/certs/ca_bundle.crt"
+```
+
 ## Changelog
 
 ### 1.0.1
