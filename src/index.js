@@ -22,7 +22,7 @@ function remoteModel ({modelUrl, updateIntervalMs}) {
   function notify () {
     // complete any existing promise chains
     while (outstandingPromises.length > 0) {
-      let promise = outstandingPromises.unshift()
+      let promise = outstandingPromises.shift()
       promise.resolve(cachedModel)
     }
     // notify any listeners
@@ -47,8 +47,8 @@ function remoteModel ({modelUrl, updateIntervalMs}) {
         cachedModel = parsedJson
         // clear the fetching flag
         fetching = false
-        // delay notifying listeners until after promise has returned
-        setTimeout(notify, 0)
+        // notify listeners that the model has been updated
+        notify()
         // return data
         return cachedModel
       })
@@ -73,15 +73,17 @@ function remoteModel ({modelUrl, updateIntervalMs}) {
         outstandingPromises.push({ resolve, reject })
       })
     } else {
-      return makeRequest()
+      return updateModel()
     }
   }
 
   // Prepare for future update
-  let interval = setInterval(updateModel, updateIntervalMs)
+  let interval = setInterval(() => {
+    updateModel()
+  }, updateIntervalMs)
 
   // Heat up the cache immediately
-  setTimeout(updateModel, 0)
+  fetch()
 
   function destroy() {
     clearInterval(interval)

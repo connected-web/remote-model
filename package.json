@@ -9,7 +9,8 @@
   "author": "John Beech",
   "license": "ISC",
   "devDependencies": {
-    "mocha": "^4.0.1"
+    "mocha": "^4.0.1",
+    "sinon": "^4.1.3"
   },
   "dependencies": {
     "node-fetch": "^1.7.3"
