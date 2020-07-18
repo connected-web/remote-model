@@ -10,10 +10,10 @@
   "license": "ISC",
   "devDependencies": {
     "mocha": "^8.0.1",
-    "sinon": "^4.1.3"
+    "sinon": "^9.0.2"
   },
   "dependencies": {
-    "node-fetch": "^1.7.3"
+    "node-fetch": "^2.6.0"
   },
   "repository": {
     "type": "git",
