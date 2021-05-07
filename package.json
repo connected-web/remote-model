@@ -8,15 +8,15 @@
   },
   "author": "John Beech",
   "license": "ISC",
-  "devDependencies": {
-    "mocha": "^8.0.1",
-    "sinon": "^4.1.3"
-  },
-  "dependencies": {
-    "node-fetch": "^1.7.3"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/connected-web/remote-model.git"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "mocha": "^8.3.2",
+    "sinon": "^10.0.0"
   }
 }
