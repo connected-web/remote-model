@@ -48,6 +48,10 @@ export CLIENT_CA="/user/certs/ca_bundle.crt"
 
 ## Changelog
 
+### 1.0.3
+
+- Fix promise rejection on outstanding promises
+
 ### 1.0.2
 
 - Add information about HTTPS Agent
