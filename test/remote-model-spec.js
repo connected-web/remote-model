@@ -73,10 +73,29 @@ describe('Remote Model', () => {
       clock.tick(defaultOptions.updateIntervalMs + 1)
     })
   })
-
   afterEach(() => {
     clock.restore()
     clock = false
+    model.destroy()
+  })
+})
+
+describe('Remote Model : Handling errors', () => {
+  let model
+  it('should throw an error if an invalid URL is loaded', async () => {
+    model = remoteModel({
+      url: '/invalid-url/info.json',
+      updateIntervalMs: 60000
+    })
+    try {
+      await model.fetch()
+      throw new Error('Unexpected success of fetch command')
+    } catch (ex) {
+      assert.deepEqual(ex.message, 'Only absolute URLs are supported')
+    }
+  })
+
+  afterEach(() => {
     model.destroy()
   })
 })

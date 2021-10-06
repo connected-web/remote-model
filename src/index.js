@@ -58,7 +58,7 @@ function remoteModel ({url, updateIntervalMs}) {
         fetching = false
         // reject any outstanding promise chains
         while (outstandingPromises.length > 0) {
-          let promise = outstandingPromises.unshift()
+          const promise = outstandingPromises.shift()
           promise.reject(ex)
         }
         // reject the current promise chain
