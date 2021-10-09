@@ -1,16 +1,22 @@
 const remoteModel = require('../')
 const assert = require('assert')
 const sinon = require('sinon')
+const path = require('path')
+const fs = require('fs/promises')
 
-const expectedRemoteFile = {
-  'file': 'info.json',
-  'message': "If you're reading this JSON file you've successfully accessed the remote test"
+const expectedLocalFile = {
+  "some": "test fixture",
+  "data": [1, 2, 3, 4]
 }
 
-describe('Remote Model - URL', () => {
+describe('Remote Model - Custom Fetch', () => {
+  const localModelPath = path.join(__dirname, 'fixtures/local-model-to-watch.json')
   const defaultOptions = {
-    url: 'https://raw.githubusercontent.com/connected-web/remote-test/master/info.json',
-    updateIntervalMs: 60000
+    async fetcher () {
+      const fileContents = await fs.readFile(localModelPath, 'utf8')
+      return JSON.parse(fileContents)
+    },
+    updateIntervalMs: 2 * 60 * 1000 // 2 minutes
   }
 
   let model, clock
@@ -19,23 +25,23 @@ describe('Remote Model - URL', () => {
     model = remoteModel(defaultOptions)
   })
 
-  it('should load a remote model as a promise', async() => {
+  it('should load a local model as a promise', async() => {
     let actual = await model.fetch()
-    let expected = expectedRemoteFile
+    let expected = expectedLocalFile
 
     assert.deepEqual(actual, expected)
   })
 
-  it('should resolve the same remote model as a promise when requested multiple times', async() => {
+  it('should resolve the same local model as a promise when requested multiple times', async() => {
     let actual = await Promise.all([model.fetch(), model.fetch()])
 
-    let expected = [expectedRemoteFile, expectedRemoteFile]
+    let expected = [expectedLocalFile, expectedLocalFile]
 
     assert.deepEqual(actual, expected)
   })
 
   it('should notify listeners when updated', (done) => {
-    let expected = expectedRemoteFile
+    let expected = expectedLocalFile
 
     model.notify((actual) => {
       assert.deepEqual(actual, expected)
@@ -44,7 +50,7 @@ describe('Remote Model - URL', () => {
   })
 
   it('should not notify listeners until a point in the future', (done) => {
-    let expected = expectedRemoteFile
+    let expected = expectedLocalFile
 
     model.destroy()
 
@@ -62,7 +68,7 @@ describe('Remote Model - URL', () => {
   })
 
   it('should notify listeners when updated in the future', (done) => {
-    let expected = expectedRemoteFile
+    let expected = expectedLocalFile
 
     model.fetch().then(() => {
       clock.tick(1)
@@ -80,22 +86,24 @@ describe('Remote Model - URL', () => {
   })
 })
 
-describe('Remote Model - URL - Handling errors', () => {
+describe('Remote Model - Custom Fetch - Handling errors', () => {
   let model
-  it('should throw an error if an invalid URL is loaded', async () => {
-    model = remoteModel({
-      url: '/invalid-url/info.json',
-      updateIntervalMs: 60000
-    })
+  it('should throw an error if an invalid fetcher is provided', async () => {
     try {
+      model = remoteModel({
+        fetcher: 'not a function',
+        updateIntervalMs: 60000
+      })
       await model.fetch()
       throw new Error('Unexpected success of fetch command')
     } catch (ex) {
-      assert.deepEqual(ex.message, 'Only absolute URLs are supported')
+      assert.deepEqual(ex.message, 'Invalid fetch function assigned to remote-model: (string)')
     }
   })
 
   afterEach(() => {
-    model.destroy()
+    if (model) {
+      model.destroy()
+    }
   })
 })
