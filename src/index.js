@@ -3,7 +3,7 @@ const httpsAgent = require('./httpsAgent')
 
 const defaultUpdateIntervalMs = 5 * 60 * 1000 // 5 minutes in milliseconds
 
-function remoteModel ({url, fetcher, updateIntervalMs}) {
+function remoteModel ({ url, fetcher, updateIntervalMs }) {
   const modelUrl = url
   updateIntervalMs = updateIntervalMs || defaultUpdateIntervalMs
 
@@ -27,14 +27,14 @@ function remoteModel ({url, fetcher, updateIntervalMs}) {
   let cachedModel
   let fetching = false
 
-  function registerListener (callback) {
+  let registerListener = (callback) => {
     listeners.push(callback)
   }
 
   function notify () {
     // complete any existing promise chains
     while (outstandingPromises.length > 0) {
-      let promise = outstandingPromises.shift()
+      const promise = outstandingPromises.shift()
       promise.resolve(cachedModel)
     }
     // notify any listeners
@@ -70,7 +70,7 @@ function remoteModel ({url, fetcher, updateIntervalMs}) {
       })
   }
 
-  function fetch () {
+  let fetch = () => {
     if (cachedModel) {
       return Promise.resolve(cachedModel)
     } else if (fetching) {
@@ -82,7 +82,7 @@ function remoteModel ({url, fetcher, updateIntervalMs}) {
     }
   }
 
-  function destroy () {
+  let destroy = () => {
     clearInterval(interval)
     cachedModel = false
 
@@ -96,7 +96,7 @@ function remoteModel ({url, fetcher, updateIntervalMs}) {
   }
 
   // Prepare for future update
-  let interval = setInterval(() => {
+  const interval = setInterval(() => {
     updateModel()
   }, updateIntervalMs)
 

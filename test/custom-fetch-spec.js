@@ -5,8 +5,8 @@ const path = require('path')
 const fs = require('fs/promises')
 
 const expectedLocalFile = {
-  "some": "test fixture",
-  "data": [1, 2, 3, 4]
+  some: 'test fixture',
+  data: [1, 2, 3, 4]
 }
 
 describe('Remote Model - Custom Fetch', () => {
@@ -25,23 +25,23 @@ describe('Remote Model - Custom Fetch', () => {
     model = remoteModel(defaultOptions)
   })
 
-  it('should load a local model as a promise', async() => {
-    let actual = await model.fetch()
-    let expected = expectedLocalFile
+  it('should load a local model as a promise', async () => {
+    const actual = await model.fetch()
+    const expected = expectedLocalFile
 
     assert.deepEqual(actual, expected)
   })
 
-  it('should resolve the same local model as a promise when requested multiple times', async() => {
-    let actual = await Promise.all([model.fetch(), model.fetch()])
+  it('should resolve the same local model as a promise when requested multiple times', async () => {
+    const actual = await Promise.all([model.fetch(), model.fetch()])
 
-    let expected = [expectedLocalFile, expectedLocalFile]
+    const expected = [expectedLocalFile, expectedLocalFile]
 
     assert.deepEqual(actual, expected)
   })
 
   it('should notify listeners when updated', (done) => {
-    let expected = expectedLocalFile
+    const expected = expectedLocalFile
 
     model.notify((actual) => {
       assert.deepEqual(actual, expected)
@@ -50,7 +50,7 @@ describe('Remote Model - Custom Fetch', () => {
   })
 
   it('should not notify listeners until a point in the future', (done) => {
-    let expected = expectedLocalFile
+    const expected = expectedLocalFile
 
     model.destroy()
 
@@ -64,11 +64,11 @@ describe('Remote Model - Custom Fetch', () => {
       })
       clock.tick(defaultOptions.updateIntervalMs - 1)
     })
-    .then(done)
+      .then(done)
   })
 
   it('should notify listeners when updated in the future', (done) => {
-    let expected = expectedLocalFile
+    const expected = expectedLocalFile
 
     model.fetch().then(() => {
       clock.tick(1)

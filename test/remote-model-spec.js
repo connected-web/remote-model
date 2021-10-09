@@ -3,8 +3,8 @@ const assert = require('assert')
 const sinon = require('sinon')
 
 const expectedRemoteFile = {
-  'file': 'info.json',
-  'message': "If you're reading this JSON file you've successfully accessed the remote test"
+  file: 'info.json',
+  message: "If you're reading this JSON file you've successfully accessed the remote test"
 }
 
 describe('Remote Model - URL', () => {
@@ -19,23 +19,23 @@ describe('Remote Model - URL', () => {
     model = remoteModel(defaultOptions)
   })
 
-  it('should load a remote model as a promise', async() => {
-    let actual = await model.fetch()
-    let expected = expectedRemoteFile
+  it('should load a remote model as a promise', async () => {
+    const actual = await model.fetch()
+    const expected = expectedRemoteFile
 
     assert.deepEqual(actual, expected)
   })
 
-  it('should resolve the same remote model as a promise when requested multiple times', async() => {
-    let actual = await Promise.all([model.fetch(), model.fetch()])
+  it('should resolve the same remote model as a promise when requested multiple times', async () => {
+    const actual = await Promise.all([model.fetch(), model.fetch()])
 
-    let expected = [expectedRemoteFile, expectedRemoteFile]
+    const expected = [expectedRemoteFile, expectedRemoteFile]
 
     assert.deepEqual(actual, expected)
   })
 
   it('should notify listeners when updated', (done) => {
-    let expected = expectedRemoteFile
+    const expected = expectedRemoteFile
 
     model.notify((actual) => {
       assert.deepEqual(actual, expected)
@@ -44,7 +44,7 @@ describe('Remote Model - URL', () => {
   })
 
   it('should not notify listeners until a point in the future', (done) => {
-    let expected = expectedRemoteFile
+    const expected = expectedRemoteFile
 
     model.destroy()
 
@@ -58,11 +58,11 @@ describe('Remote Model - URL', () => {
       })
       clock.tick(defaultOptions.updateIntervalMs - 1)
     })
-    .then(done)
+      .then(done)
   })
 
   it('should notify listeners when updated in the future', (done) => {
-    let expected = expectedRemoteFile
+    const expected = expectedRemoteFile
 
     model.fetch().then(() => {
       clock.tick(1)

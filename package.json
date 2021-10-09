@@ -4,7 +4,8 @@
   "description": "A fetcher for an externally hosted config file, that is released on a different cadence to your service",
   "main": "src/index.js",
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha"
+    "test": "standard && mocha",
+    "lint": "standard --fix"
   },
   "author": "John Beech",
   "license": "ISC",
@@ -12,11 +13,17 @@
     "type": "git",
     "url": "https://github.com/connected-web/remote-model.git"
   },
+  "standard": {
+    "env": [
+      "mocha"
+    ]
+  },
   "dependencies": {
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "mocha": "^9.1.2",
-    "sinon": "^10.0.0"
+    "sinon": "^10.0.0",
+    "standard": "^16.0.4"
   }
 }
