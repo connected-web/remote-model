@@ -48,10 +48,10 @@ const remoteModel = require('remote-model')
 const fs = require('fs/promises')
 
 const myModel = remoteModel({
-  fetcher: () => {
-    return fs.readFile('local-model-to-watch.json', 'utf8'),
-    updateIntervalMs: 2 * 60 * 1000 // 2 minutes
-  }
+  async fetcher() {
+    return fs.readFile('local-model-to-watch.json', 'utf8')
+  },
+  updateIntervalMs: 2 * 60 * 1000 // 2 minutes
 })
 
 myModel.fetch().then((data) => {
