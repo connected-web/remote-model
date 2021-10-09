@@ -9,15 +9,20 @@ Written in javascript, for node based projects.
 - Auto update after _n_ milliseconds (default, 5 minutes)
 - Synchronous call caching
 - Hot caching
+- Can use any async method inplace of the network operation
 
-## How to use
+Benefits of this approach - multiple callers can request data, but only one network call will be made. This ensures that all parts of your application receive the latest data at the same time.
+
+## Quickstart
 
 Install:
 ```
 npm install --save remote-model
 ```
 
-Use:
+## Default behaviour with URL
+
+HTTPS Usage, e.g. download file from remote host:
 ```js
 const remoteModel = require('remote-model')
 
@@ -32,6 +37,29 @@ myModel.fetch().then((data) => {
 
 myModel.notify((data) => {
   console.log('[My Model] Updated', data)
+})
+```
+
+## Using a custom fetch function
+
+Custom fetch usage, e.g. on a local filesystem:
+```js
+const remoteModel = require('remote-model')
+const fs = require('fs/promises')
+
+const myModel = remoteModel({
+  fetcher: () => {
+    return fs.readFile('local-model-to-watch.json', 'utf8'),
+    updateIntervalMs: 2 * 60 * 1000 // 2 minutes
+  }
+})
+
+myModel.fetch().then((data) => {
+  console.log('[My Custom Fetch Model]', data)
+})
+
+myModel.notify((data) => {
+  console.log('[My Custom Fetch Model] Updated', data)
 })
 
 ```
