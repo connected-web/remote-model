@@ -76,11 +76,17 @@ export CLIENT_CA="/user/certs/ca_bundle.crt"
 
 ## Changelog
 
+### 1.1.0
+
+- Add support for custom fetch function
+- Remote model can now cache any execute kind of asynchronous fetch operating
+- Updated code base to use Node 14 LTS features
+
 ### 1.0.3
 
 - Fix promise rejection on outstanding promises
 
-### 1.0.2
+### 1.0.2
 
 - Add information about HTTPS Agent
 
