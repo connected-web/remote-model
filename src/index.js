@@ -3,27 +3,38 @@ const httpsAgent = require('./httpsAgent')
 
 const defaultUpdateIntervalMs = 5 * 60 * 1000 // 5 minutes in milliseconds
 
-const agent = httpsAgent()
-
-function remoteModel ({url, updateIntervalMs}) {
+function remoteModel ({ url, fetcher, updateIntervalMs }) {
   const modelUrl = url
   updateIntervalMs = updateIntervalMs || defaultUpdateIntervalMs
 
-  const fetchOptions = { agent }
+  function makeRequest () {
+    const agent = httpsAgent()
+    const fetchOptions = { agent }
+    return nodeFetch(modelUrl, fetchOptions)
+      .then(function (res) {
+        return res.json()
+      })
+  }
+
+  const modelFetcher = url ? makeRequest : fetcher
+  if (typeof modelFetcher !== 'function') {
+    throw new Error(`Invalid fetch function assigned to remote-model: (${typeof modelFetcher})`)
+  }
+
   const listeners = []
   const outstandingPromises = []
 
   let cachedModel
   let fetching = false
 
-  function registerListener (callback) {
+  let registerListener = (callback) => {
     listeners.push(callback)
   }
 
   function notify () {
     // complete any existing promise chains
     while (outstandingPromises.length > 0) {
-      let promise = outstandingPromises.shift()
+      const promise = outstandingPromises.shift()
       promise.resolve(cachedModel)
     }
     // notify any listeners
@@ -32,20 +43,13 @@ function remoteModel ({url, updateIntervalMs}) {
     })
   }
 
-  function makeRequest () {
-    return nodeFetch(modelUrl, fetchOptions)
-      .then(function (res) {
-        return res.json()
-      })
-  }
-
   function updateModel () {
     // set the fetching flag
     fetching = true
-    return makeRequest()
-      .then(parsedJson => {
+    return modelFetcher()
+      .then(modelResult => {
         // cache data for future requests
-        cachedModel = parsedJson
+        cachedModel = modelResult
         // clear the fetching flag
         fetching = false
         // notify listeners that the model has been updated
@@ -66,7 +70,7 @@ function remoteModel ({url, updateIntervalMs}) {
       })
   }
 
-  function fetch () {
+  let fetch = () => {
     if (cachedModel) {
       return Promise.resolve(cachedModel)
     } else if (fetching) {
@@ -78,15 +82,7 @@ function remoteModel ({url, updateIntervalMs}) {
     }
   }
 
-  // Prepare for future update
-  let interval = setInterval(() => {
-    updateModel()
-  }, updateIntervalMs)
-
-  // Heat up the cache immediately
-  fetch()
-
-  function destroy() {
+  let destroy = () => {
     clearInterval(interval)
     cachedModel = false
 
@@ -98,6 +94,14 @@ function remoteModel ({url, updateIntervalMs}) {
     registerListener = destroyed
     destroy = destroyed
   }
+
+  // Prepare for future update
+  const interval = setInterval(() => {
+    updateModel()
+  }, updateIntervalMs)
+
+  // Heat up the cache immediately
+  fetch()
 
   return {
     fetch,

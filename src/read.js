@@ -1,9 +1,9 @@
 const fs = require('fs')
 
-function read(certpath) {
+function read (certpath) {
   try {
     return fs.readFileSync(certpath, 'utf-8')
-  } catch(ex) {
+  } catch (ex) {
     return false
   }
 }
