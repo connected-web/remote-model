@@ -76,6 +76,11 @@ export CLIENT_CA="/user/certs/ca_bundle.crt"
 
 ## Changelog
 
+### 1.1.1
+
+- Dependabot patches to package dependencies
+- Please consider upgrading to `^2.0.0`
+
 ### 1.1.0
 
 - Add support for custom fetch function
