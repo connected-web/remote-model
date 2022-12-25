@@ -1,8 +1,13 @@
-const remoteModel = require('../')
-const assert = require('assert')
-const sinon = require('sinon')
-const path = require('path')
-const fs = require('fs/promises')
+
+import remoteModel from '../src/index.js'
+import assert from 'assert'
+import sinon from 'sinon'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import fs from 'fs/promises'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const expectedLocalFile = {
   some: 'test fixture',
