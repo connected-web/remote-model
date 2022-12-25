@@ -1,6 +1,6 @@
-const remoteModel = require('../')
-const assert = require('assert')
-const sinon = require('sinon')
+import remoteModel from '../src/index.js'
+import assert from 'assert'
+import sinon from 'sinon'
 
 const expectedRemoteFile = {
   file: 'info.json',

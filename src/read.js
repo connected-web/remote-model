@@ -1,4 +1,4 @@
-const fs = require('fs')
+import fs from 'fs'
 
 function read (certpath) {
   try {
@@ -8,4 +8,4 @@ function read (certpath) {
   }
 }
 
-module.exports = read
+export default read

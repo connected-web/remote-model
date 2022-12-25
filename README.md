@@ -24,7 +24,7 @@ npm install --save remote-model
 
 HTTPS Usage, e.g. download file from remote host:
 ```js
-const remoteModel = require('remote-model')
+import remoteModel from 'remote-model'
 
 const myModel = remoteModel({
   url: 'https://raw.githubusercontent.com/connected-web/remote-test/master/info.json',
@@ -44,8 +44,8 @@ myModel.notify((data) => {
 
 Custom fetch usage, e.g. on a local filesystem:
 ```js
-const remoteModel = require('remote-model')
-const fs = require('fs/promises')
+import remoteModel from 'remote-model'
+import fs from 'fs/promises'
 
 const myModel = remoteModel({
   async fetcher() {
@@ -75,6 +75,13 @@ export CLIENT_CA="/user/certs/ca_bundle.crt"
 ```
 
 ## Changelog
+
+### 2.0.0
+
+- Change project type to module
+- Rewrite require to use module imports
+- Rewrite tests to use module imports
+- Change process.env to import.meta.env
 
 ### 1.1.1
 

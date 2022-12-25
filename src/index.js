@@ -1,5 +1,5 @@
-const nodeFetch = require('node-fetch')
-const httpsAgent = require('./httpsAgent')
+import nodeFetch from 'node-fetch'
+import httpsAgent from './httpsAgent.js'
 
 const defaultUpdateIntervalMs = 5 * 60 * 1000 // 5 minutes in milliseconds
 
@@ -110,4 +110,4 @@ function remoteModel ({ url, fetcher, updateIntervalMs }) {
   }
 }
 
-module.exports = remoteModel
+export default remoteModel
