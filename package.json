@@ -1,6 +1,6 @@
 {
   "name": "remote-model",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A fetcher for an externally hosted config file, that is released on a different cadence to your service",
   "main": "src/index.js",
   "scripts": {
